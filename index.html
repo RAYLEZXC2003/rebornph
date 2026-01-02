@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Reborn PH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --surface: rgba(22, 22, 26, 0.85);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --accent: #ff3e3e;
+            --secondary: #00f2ff;
+            --nav-bg: rgba(10, 10, 12, 0.95);
+            --border: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #ff3e3e 0%, #00f2ff 100%);
+            --card-shadow: 0 10px 30px rgba(255, 62, 62, 0.1);
+            --nav-height: 70px;
+        }
+
+        [data-theme="light"] {
+            --bg: #f8f9fa;
+            --surface: rgba(255, 255, 255, 0.95);
+            --text-main: #1a1a1a;
+            --text-dim: #555555;
+            --accent: #e63946;
+            --secondary: #0077b6;
+            --nav-bg: rgba(255, 255, 255, 0.97);
+            --border: rgba(0, 0, 0, 0.08);
+            --gradient: linear-gradient(135deg, #e63946 0%, #0077b6 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--nav-height);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Disable text selection and right-click */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Particles container */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* ========== IMPROVED NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .logo i {
+            font-size: 1.3rem;
+        }
+
+        /* Desktop Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            padding: 8px 15px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(255, 62, 62, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(255, 62, 62, 0.1);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 70%;
+        }
+
+        .theme-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron';
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3);
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 62, 62, 0.4);
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 62, 62, 0.1);
+        }
+
+        /* Mobile Navigation Menu */
+        .mobile-nav {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 999;
+        }
+
+        .mobile-nav.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-left: 4px solid transparent;
+        }
+
+        .mobile-nav-links a:hover, 
+        .mobile-nav-links a.active {
+            color: var(--accent);
+            background: rgba(255, 62, 62, 0.1);
+            border-left-color: var(--accent);
+        }
+
+        .mobile-nav-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: var(--nav-height);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(255, 62, 62, 0.15) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.8rem, 8vw, 5rem);
+            text-transform: uppercase;
+            margin: 20px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            color: var(--accent);
+            font-weight: bold;
+            letter-spacing: 4px;
+            font-family: 'Orbitron';
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-top: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tagline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient);
+            bottom: -8px;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: right;
+            animation: slideIn 2s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to { transform: scaleX(1); transform-origin: left; }
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .section-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 40px 35px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gradient);
+        }
+
+        .section-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 62, 62, 0.15);
+        }
+
+        .section-card h2 {
+            font-family: 'Orbitron';
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-card h2 i {
+            font-size: 1.4rem;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 32px;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact-footer {
+            margin-top: 80px;
+            text-align: center;
+            padding: 70px 40px;
+            background: var(--surface);
+            border-radius: 30px;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .contact-footer h2 {
+            font-family: 'Orbitron';
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-footer p {
+            margin-top: 10px;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .social-btn {
+            padding: 18px 40px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+            z-index: -1;
+        }
+
+        .social-btn:hover::before {
+            left: 100%;
+        }
+
+        .fb {
+            background: #1877F2;
+            color: white;
+        }
+
+        .dc {
+            background: #5865F2;
+            color: white;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-btn i {
+            font-size: 1.3rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: transparent;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 62, 62, 0.4);
+        }
+
+        .scroll-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            background: var(--secondary);
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            /* Hide desktop nav links on medium screens */
+            .nav-links {
+                display: none;
+            }
+            
+            /* Show mobile menu button */
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .theme-btn span {
+                display: none;
+            }
+            
+            .theme-btn {
+                padding: 12px;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .hero {
+                padding: 120px 15px 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+            
+            .hero {
+                padding: 100px 15px 50px;
+            }
+            
+            .section-card {
+                padding: 30px 25px;
+            }
+            
+            .contact-footer {
+                padding: 50px 30px;
+            }
+            
+            .social-btn {
+                padding: 15px 30px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-card {
+                padding: 25px 20px;
+            }
+            
+            .contact-footer {
+                padding: 40px 20px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .footer-logo {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --nav-height: 60px;
+            }
+            
+            nav {
+                padding: 0 15px;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .hero {
+                padding: 90px 10px 40px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 0.9rem;
+                letter-spacing: 3px;
+            }
+            
+            .contact-footer h2 {
+                font-size: 1.7rem;
+            }
+            
+            .scroll-top {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-card h2 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .section-card:nth-child(1) { animation-delay: 0.1s; }
+        .section-card:nth-child(2) { animation-delay: 0.2s; }
+        .section-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+    <!-- Particles Container -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">
+            <i class="fas fa-fire"></i>
+            TRPH
+        </a>
+        
+        <!-- Desktop Navigation Links -->
+        <div class="nav-links">
+            <a href="#home" class="active">HOME</a>
+            <a href="#requirements">REQUIREMENTS</a>
+            <a href="#benefits">BENEFITS</a>
+            <a href="#rules">RULES</a>
+            <a href="#join">JOIN</a>
+            <button class="theme-btn" onclick="toggleTheme()" id="t-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-links">
+            <a href="#home" class="active">
+                <i class="fas fa-home"></i>
+                HOME
+            </a>
+            <a href="#requirements">
+                <i class="fas fa-list-check"></i>
+                REQUIREMENTS
+            </a>
+            <a href="#benefits">
+                <i class="fas fa-gift"></i>
+                BENEFITS
+            </a>
+            <a href="#rules">
+                <i class="fas fa-scroll"></i>
+                RULES
+            </a>
+            <a href="#join">
+                <i class="fas fa-envelope"></i>
+                JOIN US
+            </a>
+            <a href="#" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+                TOGGLE THEME
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <h1>Team Reborn PH</h1>
+        <p class="tagline">RISE FROM THE ASHES</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="grid">
+            <div class="section-card" id="requirements">
+                <h2><i class="fas fa-list-check"></i> Requirements</h2>
+                <ul>
+                    <li>Must be active in PokéMMO (PvE, PvP, events, or farming)</li>
+                    <li>Friendly, respectful, and non-toxic</li>
+                    <li>Willing to communicate in team chat / Discord</li>
+                    <li>At least basic game knowledge (PvE or PvP)</li>
+                    <li>Ready to help and grow with the team</li>
+                    <li>PH players only</li>
+                </ul>
+            </div>
+
+            <div class="section-card" id="benefits">
+                <h2><i class="fas fa-gift"></i> Benefits</h2>
+                <ul>
+                    <li>Supportive and friendly teammates</li>
+                    <li>Help with PvP builds, EVs, IVs, and movesets</li>
+                    <li>Tips for money making, farming, and events</li>
+                    <li>Team participation in tournaments and raids</li>
+                    <li>Announcements, guides, and strategies</li>
+                </ul>
+            </div>
+
+            <div class="section-card" id="rules">
+                <h2><i class="fas fa-scroll"></i> Team Rules</h2>
+                <ul>
+                    <li>No toxicity or disrespect</li>
+                    <li>No scamming, cheating, or Real Money Trading (RMT)</li>
+                    <li>Be active and participate in team activities</li>
+                    <li>No leaking team strategies or private info</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <section class="contact-footer" id="join">
+            <h2><i class="fas fa-envelope"></i> HOW TO JOIN</h2>
+            <p>Do you want to join? Contact our recruitment officers via the channels below.</p>
+            <div class="btn-group">
+                <a href="https://m.me/j/AbZ6LbneLs5hbzbR/" target="_blank" class="social-btn fb">
+                    <i class="fab fa-facebook-f"></i>
+                    MESSENGER
+                </a>
+                <a href="https://discord.gg/mRH73DG5" target="_blank" class="social-btn dc">
+                    <i class="fab fa-discord"></i>
+                    DISCORD
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">TEAM REBORN PH</div>
+        <div>&copy; 2026 TEAM REBORN PH | PokéMMO Philippines</div>
+	<div>Created by : <a href="https://web.facebook.com/profile.php?id=61576508304832">Adrayle</a></div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize Particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ff3e3e" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.3, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00f2ff",
+                        opacity: 0.2,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" },
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        });
+
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.getElementById('t-btn');
+            const btnIcon = btn.querySelector('i');
+            const btnText = btn.querySelector('span');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btnIcon.className = 'fas fa-sun';
+                if (btnText) btnText.textContent = 'DARK MODE';
+                
+                // Update mobile nav icon
+                const mobileThemeIcons = document.querySelectorAll('.mobile-nav-links a:nth-child(6) i');
+                mobileThemeIcons.forEach(icon => {
+                    icon.className = 'fas fa-sun';
+                });
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btnIcon.className = 'fas fa-moon';
+                if (btnText) btnText.textContent = 'LIGHT MODE';
+                
+                // Update mobile nav icon
+                const mobileThemeIcons = document.querySelectorAll('.mobile-nav-links a:nth-child(6) i');
+                mobileThemeIcons.forEach(icon => {
+                    icon.className = 'fas fa-moon';
+                });
+            }
+            
+            // Update particles color on theme change
+            updateParticlesColor();
+        }
+
+        function updateParticlesColor() {
+            const theme = document.documentElement.getAttribute('data-theme');
+            const color = theme === 'dark' ? '#ff3e3e' : '#e63946';
+            
+            if (window.pJSDom && window.pJSDom[0]) {
+                window.pJSDom[0].pJS.particles.color.value = color;
+                window.pJSDom[0].pJS.fn.particlesRefresh();
+            }
+        }
+
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileNav.classList.toggle('active');
+            
+            // Toggle menu icon
+            const icon = this.querySelector('i');
+            if (mobileNav.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNav.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = nav.contains(event.target);
+            const isClickInsideMobileNav = mobileNav.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickInsideMobileNav && mobileNav.classList.contains('active')) {
+                mobileNav.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            }
+        });
+
+        // Scroll to Top
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Navigation active state management
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a');
+        
+        window.addEventListener('scroll', function() {
+            let current = '';
+            const scrollPosition = window.scrollY + 100;
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id') || 'home';
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}` || (current === 'home' && link.getAttribute('href') === '#')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Disable inspect tools (Developer Tools protection)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Disable F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Disable Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Disable Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Disable Ctrl+U
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Additional protection - periodically check for dev tools
+        function detectDevTools() {
+            const threshold = 160;
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+            
+            if (widthThreshold || heightThreshold) {
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Orbitron; color: #ff3e3e; text-align: center; padding: 20px;"><div><h1>⚠️ ACCESS RESTRICTED ⚠️</h1><p>Developer tools are not allowed on this page.</p></div></div>';
+                return true;
+            }
+            return false;
+        }
+
+        // Run detection every second
+        setInterval(detectDevTools, 1000);
+
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
