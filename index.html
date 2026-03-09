@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team HGMN · secure</title>
+    <title>Team HGMN</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -325,9 +325,10 @@
             box-shadow: var(--card-shadow);
             transition: all 0.4s ease;
             position: relative;
-            overflow: hidden;
+            overflow: visible !important; /* Fixed: changed from hidden to visible */
             animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
+            opacity: 1 !important; /* Force visibility */
+            display: block !important; /* Ensure display */
         }
 
         .section-card::before {
@@ -359,6 +360,30 @@
             font-size: 1.4rem;
         }
 
+        .section-card ul {
+            list-style: none;
+            display: block;
+        }
+
+        .section-card li {
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 32px;
+            font-size: 1rem;
+            line-height: 1.7;
+            display: list-item;
+            color: var(--text-main);
+        }
+
+        .section-card li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
         .event-item {
             cursor: pointer;
             transition: 0.2s;
@@ -383,25 +408,6 @@
             font-weight: 600;
             font-family: 'Orbitron';
             font-size: 1rem;
-        }
-
-        ul {
-            list-style: none;
-        }
-        li {
-            margin-bottom: 16px;
-            position: relative;
-            padding-left: 32px;
-            font-size: 1rem;
-            line-height: 1.7;
-        }
-        li::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 1.2rem;
         }
 
         /* MODAL (EVENT) */
@@ -622,7 +628,7 @@
             background: var(--secondary);
         }
 
-        /* inspector alert banner (hidden by default) */
+        /* inspector alert banner */
         .inspector-alert {
             position: fixed;
             bottom: 30px;
@@ -653,6 +659,7 @@
             font-size: 1.5rem;
         }
 
+        /* Fix animation delays */
         .section-card:nth-child(1) { animation-delay: 0.1s; }
         .section-card:nth-child(2) { animation-delay: 0.2s; }
         .section-card:nth-child(3) { animation-delay: 0.3s; }
@@ -678,7 +685,7 @@
 
 <div id="particles-js"></div>
 
-<!-- hidden inspector alert (shows when devtools opens) -->
+<!-- hidden inspector alert -->
 <div class="inspector-alert" id="inspectorAlert">
     <i class="fas fa-map-marker-alt"></i>
     <span id="geoCoords">fetching location...</span>
@@ -846,9 +853,24 @@
 
     function openModal(eventId) {
         const events = {
-            spring: { title: '🌸 Spring Tournament', date: '📅 March 15-16, 2026 · 8:00 PM GMT+8', desc: 'Solo PvP OU tier. Top 3 get 500k/300k/150k Pokéyen + exclusive team role. Sign-up in #tourney channel.', img: 'https://placekitten.com/600/300' },
-            catch: { title: '🐞 Bug-Catching Contest', date: '📅 March 22, 2026 · National Park', desc: 'Catch the highest IV Bug-type! Entry fee 10k. Winner takes 400k and a 3x31 Bug trophy.', img: 'https://placekitten.com/601/300' },
-            boss: { title: '⚡ Legendary Raid: Zapdos', date: '📅 March 29, 2026 · Co-op', desc: 'Team up against Legendary Zapdos. Participants must have discord. Reward: 100k each + rare candy loot.', img: 'https://placekitten.com/602/300' }
+            spring: { 
+                title: '🌸 Spring Tournament', 
+                date: '📅 March 15-16, 2026 · 8:00 PM GMT+8', 
+                desc: 'Solo PvP OU tier. Top 3 get 500k/300k/150k Pokéyen + exclusive team role. Sign-up in #tourney channel.', 
+                img: 'https://placekitten.com/600/300' 
+            },
+            catch: { 
+                title: '🐞 Bug-Catching Contest', 
+                date: '📅 March 22, 2026 · National Park', 
+                desc: 'Catch the highest IV Bug-type! Entry fee 10k. Winner takes 400k and a 3x31 Bug trophy.', 
+                img: 'https://placekitten.com/601/300' 
+            },
+            boss: { 
+                title: '⚡ Legendary Raid: Zapdos', 
+                date: '📅 March 29, 2026 · Co-op', 
+                desc: 'Team up against Legendary Zapdos. Participants must have discord. Reward: 100k each + rare candy loot.', 
+                img: 'https://placekitten.com/602/300' 
+            }
         };
         const data = events[eventId] || events.spring;
         modalTitleSpan.innerText = data.title;
@@ -892,13 +914,18 @@
     }
 
     // block all common inspect shortcuts
-    document.addEventListener('contextmenu', (e) => { e.preventDefault(); showInspectorWarning(); return false; });
+    document.addEventListener('contextmenu', (e) => { 
+        e.preventDefault(); 
+        showInspectorWarning(); 
+        return false; 
+    });
+    
     document.addEventListener('keydown', (e) => {
         if (e.key === 'F12' || 
             (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
             (e.ctrlKey && e.key === 'u') ||
             (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-            (e.metaKey && e.altKey && e.key === 'i') // mac
+            (e.metaKey && e.altKey && e.key === 'i')
            ) {
             e.preventDefault();
             showInspectorWarning();
@@ -921,7 +948,6 @@
     }
     setInterval(detectDevTools, 800);
 
-    // also if someone tries to open via menu (blur detection)
     window.addEventListener('blur', () => {
         setTimeout(() => { if (!devToolsOpen) showInspectorWarning(); }, 200);
     });
@@ -934,6 +960,7 @@
         const icon = this.querySelector('i');
         icon.className = mobileNav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
     });
+    
     document.querySelectorAll('.mobile-nav-links a').forEach(link => {
         link.addEventListener('click', function() {
             mobileNav.classList.remove('active');
@@ -944,19 +971,24 @@
     // ========== SCROLL SPY ==========
     const sections = document.querySelectorAll('header, .section-card, .contact-footer');
     const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a:not([href="#"])');
+    
     window.addEventListener('scroll', function() {
         let current = '';
         const scrollPos = window.scrollY + 100;
+        
         sections.forEach(section => {
-            const top = section.offsetTop;
-            const height = section.clientHeight;
-            if (scrollPos >= top && scrollPos < top + height) {
-                current = section.getAttribute('id') || 'home';
+            if (section && section.offsetTop) {
+                const top = section.offsetTop;
+                const height = section.clientHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    current = section.getAttribute('id') || 'home';
+                }
             }
         });
+        
         navLinks.forEach(link => {
             link.classList.remove('active');
-            const href = link.getAttribute('href').replace('#','');
+            const href = link.getAttribute('href').replace('#', '');
             if ((current === 'home' && href === '') || href === current) {
                 link.classList.add('active');
             }
@@ -965,14 +997,15 @@
 
     // ========== SCROLL TOP ==========
     const scrollTop = document.getElementById('scrollTop');
-    window.addEventListener('scroll', ()=> scrollTop.classList.toggle('active', window.scrollY > 300));
-    scrollTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+    window.addEventListener('scroll', () => scrollTop.classList.toggle('active', window.scrollY > 300));
+    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
 
-    // observer for cards
-    const observer = new IntersectionObserver((entries)=> {
-        entries.forEach(e=> { if(e.isIntersecting) e.target.style.animationPlayState = 'running'; });
-    }, {threshold:0.1});
-    document.querySelectorAll('.section-card').forEach(c=> observer.observe(c));
+    // Ensure all cards are visible
+    document.querySelectorAll('.section-card').forEach(card => {
+        card.style.opacity = '1';
+        card.style.visibility = 'visible';
+        card.style.display = 'block';
+    });
 </script>
 </body>
 </html>
