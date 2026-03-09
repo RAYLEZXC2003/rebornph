@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team HGMN · Events</title>
+    <title>Team HGMN · secure</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -359,7 +359,6 @@
             font-size: 1.4rem;
         }
 
-        /* Event card specific */
         .event-item {
             cursor: pointer;
             transition: 0.2s;
@@ -405,7 +404,7 @@
             font-size: 1.2rem;
         }
 
-        /* MODAL (EVENT) - preserves original design */
+        /* MODAL (EVENT) */
         .modal {
             display: none;
             position: fixed;
@@ -623,7 +622,37 @@
             background: var(--secondary);
         }
 
-        /* animation delays */
+        /* inspector alert banner (hidden by default) */
+        .inspector-alert {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 18px 30px;
+            border-radius: 60px;
+            font-family: 'Orbitron';
+            font-weight: 600;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.95rem;
+        }
+        .inspector-alert.show {
+            opacity: 1;
+        }
+        .inspector-alert i {
+            font-size: 1.5rem;
+        }
+
         .section-card:nth-child(1) { animation-delay: 0.1s; }
         .section-card:nth-child(2) { animation-delay: 0.2s; }
         .section-card:nth-child(3) { animation-delay: 0.3s; }
@@ -641,12 +670,19 @@
         @media (max-width: 480px) {
             :root { --nav-height: 60px; }
             .hero h1 { font-size: 2.2rem; }
+            .inspector-alert { font-size: 0.8rem; padding: 12px 20px; }
         }
     </style>
 </head>
 <body>
 
 <div id="particles-js"></div>
+
+<!-- hidden inspector alert (shows when devtools opens) -->
+<div class="inspector-alert" id="inspectorAlert">
+    <i class="fas fa-map-marker-alt"></i>
+    <span id="geoCoords">fetching location...</span>
+</div>
 
 <nav>
     <a href="#" class="logo"><i class="fas fa-fire"></i> HGMN</a>
@@ -655,7 +691,7 @@
         <a href="#requirements">REQUIREMENTS</a>
         <a href="#benefits">BENEFITS</a>
         <a href="#rules">RULES</a>
-        <a href="#events">EVENTS</a>          <!-- new nav link -->
+        <a href="#events">EVENTS</a>
         <a href="#join">JOIN</a>
         <button class="theme-btn" onclick="toggleTheme()" id="t-btn"><i class="fas fa-moon"></i></button>
     </div>
@@ -714,7 +750,6 @@
             </ul>
         </div>
 
-        <!-- NEW EVENT CARD (with clickable list) -->
         <div class="section-card" id="events">
             <h2><i class="fas fa-calendar-alt"></i> Events</h2>
             <ul>
@@ -736,16 +771,14 @@
     </section>
 </main>
 
-<!-- MODAL (EVENT DETAIL) - picture, title, description -->
+<!-- MODAL (EVENT) -->
 <div class="modal" id="eventModal">
     <div class="modal-card">
         <button class="close-modal" onclick="closeModal()">&times;</button>
         <h2 id="modalTitle"><i class="fas fa-star"></i> <span>Event</span></h2>
-        <img id="modalImage" class="modal-img" src="https://via.placeholder.com/500x250/1e1e2f/ff3e3e?text=Event+Banner" alt="event visual">
+        <img id="modalImage" class="modal-img" src="https://placekitten.com/600/300" alt="event visual">
         <div class="modal-date" id="modalDate"></div>
-        <div class="modal-desc" id="modalDescription">
-            Full event description will appear here. Prizes, rules, and registration info.
-        </div>
+        <div class="modal-desc" id="modalDescription">event description</div>
         <button class="modal-footer-btn" onclick="closeModal()"><i class="fas fa-check"></i> GOT IT</button>
     </div>
 </div>
@@ -760,7 +793,7 @@
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    // PARTICLES
+    // ========== PARTICLES ==========
     document.addEventListener('DOMContentLoaded', function() {
         particlesJS("particles-js", {
             particles: {
@@ -780,7 +813,7 @@
         });
     });
 
-    // THEME TOGGLE (fixed: mobile theme button uses same function, icons update)
+    // ========== THEME TOGGLE ==========
     function toggleTheme() {
         const html = document.documentElement;
         const btn = document.getElementById('t-btn');
@@ -795,20 +828,16 @@
             btnIcon.className = 'fas fa-moon';
         }
         
-        // update mobile toggle link icon
         const mobileToggle = document.querySelector('.mobile-nav-links a[href="#"] i');
-        if (mobileToggle) {
-            mobileToggle.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        }
+        if (mobileToggle) mobileToggle.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         
-        // update particles color
         if (window.pJSDom && window.pJSDom[0]) {
             window.pJSDom[0].pJS.particles.color.value = isDark ? '#e63946' : '#ff3e3e';
             window.pJSDom[0].pJS.fn.particlesRefresh();
         }
     }
 
-    // MODAL functions
+    // ========== MODAL ==========
     const modal = document.getElementById('eventModal');
     const modalTitleSpan = document.querySelector('#modalTitle span');
     const modalImage = document.getElementById('modalImage');
@@ -816,46 +845,88 @@
     const modalDesc = document.getElementById('modalDescription');
 
     function openModal(eventId) {
-        // demo event data – you can replace with real images/descriptions
         const events = {
-            spring: {
-                title: '🌸 Spring Tournament',
-                date: '📅 March 15-16, 2026 · 8:00 PM GMT+8',
-                desc: 'Solo PvP OU tier. Top 3 get 500k/300k/150k Pokéyen + exclusive team role. Sign-up in #tourney channel.',
-                img: 'https://placekitten.com/600/300'   // placeholder, replace with actual event picture
-            },
-            catch: {
-                title: '🐞 Bug-Catching Contest',
-                date: '📅 March 22, 2026 · National Park',
-                desc: 'Catch the highest IV Bug-type! Entry fee 10k. Winner takes 400k and a 3x31 Bug trophy.',
-                img: 'https://placekitten.com/601/300'
-            },
-            boss: {
-                title: '⚡ Legendary Raid: Zapdos',
-                date: '📅 March 29, 2026 · Co-op',
-                desc: 'Team up against Legendary Zapdos. Participants must have discord. Reward: 100k each + rare candy loot.',
-                img: 'https://placekitten.com/602/300'
-            }
+            spring: { title: '🌸 Spring Tournament', date: '📅 March 15-16, 2026 · 8:00 PM GMT+8', desc: 'Solo PvP OU tier. Top 3 get 500k/300k/150k Pokéyen + exclusive team role. Sign-up in #tourney channel.', img: 'https://placekitten.com/600/300' },
+            catch: { title: '🐞 Bug-Catching Contest', date: '📅 March 22, 2026 · National Park', desc: 'Catch the highest IV Bug-type! Entry fee 10k. Winner takes 400k and a 3x31 Bug trophy.', img: 'https://placekitten.com/601/300' },
+            boss: { title: '⚡ Legendary Raid: Zapdos', date: '📅 March 29, 2026 · Co-op', desc: 'Team up against Legendary Zapdos. Participants must have discord. Reward: 100k each + rare candy loot.', img: 'https://placekitten.com/602/300' }
         };
         const data = events[eventId] || events.spring;
         modalTitleSpan.innerText = data.title;
         modalImage.src = data.img;
         modalDateDiv.innerText = data.date;
         modalDesc.innerText = data.desc;
-
         modal.classList.add('show');
     }
 
-    function closeModal() {
-        modal.classList.remove('show');
+    function closeModal() { modal.classList.remove('show'); }
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    // ========== INSPECTOR DETECTION + GEOLOCATION ==========
+    const alertBox = document.getElementById('inspectorAlert');
+    const coordsSpan = document.getElementById('geoCoords');
+    let locationShared = false;
+
+    function showInspectorWarning() {
+        if (!locationShared) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude.toFixed(5);
+                        const lon = position.coords.longitude.toFixed(5);
+                        coordsSpan.innerText = `📍 ${lat}, ${lon}  •  inspect blocked`;
+                        locationShared = true;
+                        alertBox.classList.add('show');
+                    },
+                    (error) => {
+                        coordsSpan.innerText = `⚠️ location denied  •  access logged`;
+                        alertBox.classList.add('show');
+                    }
+                );
+            } else {
+                coordsSpan.innerText = `⚠️ no geolocation  •  access logged`;
+                alertBox.classList.add('show');
+            }
+        } else {
+            alertBox.classList.add('show');
+        }
     }
 
-    // click outside to close
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) closeModal();
+    // block all common inspect shortcuts
+    document.addEventListener('contextmenu', (e) => { e.preventDefault(); showInspectorWarning(); return false; });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+            (e.ctrlKey && e.key === 'u') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.metaKey && e.altKey && e.key === 'i') // mac
+           ) {
+            e.preventDefault();
+            showInspectorWarning();
+            return false;
+        }
     });
 
-    // MOBILE MENU
+    // detect devtools via window size threshold
+    let devToolsOpen = false;
+    function detectDevTools() {
+        const threshold = 160;
+        const widthDiff = window.outerWidth - window.innerWidth > threshold;
+        const heightDiff = window.outerHeight - window.innerHeight > threshold;
+        if ((widthDiff || heightDiff) && !devToolsOpen) {
+            devToolsOpen = true;
+            showInspectorWarning();
+        } else if (!widthDiff && !heightDiff) {
+            devToolsOpen = false;
+        }
+    }
+    setInterval(detectDevTools, 800);
+
+    // also if someone tries to open via menu (blur detection)
+    window.addEventListener('blur', () => {
+        setTimeout(() => { if (!devToolsOpen) showInspectorWarning(); }, 200);
+    });
+
+    // ========== MOBILE MENU ==========
     const mobileBtn = document.getElementById('mobile-menu');
     const mobileNav = document.getElementById('mobileNav');
     mobileBtn.addEventListener('click', function() {
@@ -870,7 +941,7 @@
         });
     });
 
-    // SCROLL SPY & ACTIVE LINK
+    // ========== SCROLL SPY ==========
     const sections = document.querySelectorAll('header, .section-card, .contact-footer');
     const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a:not([href="#"])');
     window.addEventListener('scroll', function() {
@@ -892,18 +963,10 @@
         });
     });
 
-    // SCROLL TOP
+    // ========== SCROLL TOP ==========
     const scrollTop = document.getElementById('scrollTop');
     window.addEventListener('scroll', ()=> scrollTop.classList.toggle('active', window.scrollY > 300));
     scrollTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
-
-    // disable inspect
-    document.addEventListener('contextmenu', e=> e.preventDefault());
-    document.addEventListener('keydown', e=> {
-        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I'||e.key==='J')) || (e.ctrlKey && e.key === 'u')) {
-            e.preventDefault();
-        }
-    });
 
     // observer for cards
     const observer = new IntersectionObserver((entries)=> {
