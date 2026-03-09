@@ -2,8 +2,8 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team HGMN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Team HGMN · events</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,7 +19,6 @@
             --gradient: linear-gradient(135deg, #ff3e3e 0%, #00f2ff 100%);
             --card-shadow: 0 10px 30px rgba(255, 62, 62, 0.1);
             --nav-height: 70px;
-            --modal-overlay: rgba(0, 0, 0, 0.9);
         }
 
         [data-theme="light"] {
@@ -33,20 +32,10 @@
             --border: rgba(0, 0, 0, 0.08);
             --gradient: linear-gradient(135deg, #e63946 0%, #0077b6 100%);
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --modal-overlay: rgba(240, 240, 245, 0.95);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: var(--nav-height);
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--nav-height); }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg);
@@ -60,7 +49,6 @@
             -ms-user-select: none;
             user-select: none;
         }
-
         #particles-js {
             position: fixed;
             width: 100%;
@@ -71,6 +59,7 @@
             pointer-events: none;
         }
 
+        /* navigation unchanged */
         nav {
             position: fixed;
             top: 0;
@@ -84,9 +73,7 @@
             backdrop-filter: blur(20px);
             z-index: 1000;
             border-bottom: 1px solid var(--border);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
-
         .logo {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -100,37 +87,20 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            z-index: 1001;
         }
-
-        .logo i {
-            font-size: 1.3rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-
+        .nav-links { display: flex; gap: 30px; align-items: center; }
         .nav-links a {
             color: var(--text-main);
             text-decoration: none;
             font-family: 'Orbitron', sans-serif;
             font-weight: 500;
             font-size: 0.9rem;
-            letter-spacing: 1px;
             padding: 8px 15px;
             border-radius: 50px;
             transition: all 0.3s ease;
             position: relative;
         }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent);
-            background: rgba(255, 62, 62, 0.1);
-        }
-
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); background: rgba(255, 62, 62, 0.1); }
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -142,11 +112,7 @@
             transform: translateX(-50%);
             transition: width 0.3s ease;
         }
-
-        .nav-links a:hover::after {
-            width: 70%;
-        }
-
+        .nav-links a:hover::after { width: 70%; }
         .theme-btn {
             background: var(--accent);
             color: white;
@@ -157,19 +123,12 @@
             font-family: 'Orbitron';
             font-weight: 600;
             font-size: 0.8rem;
-            letter-spacing: 1px;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(255, 62, 62, 0.3);
         }
-
-        .theme-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 62, 62, 0.4);
-        }
-
         .mobile-menu-btn {
             display: none;
             background: transparent;
@@ -177,19 +136,10 @@
             color: var(--accent);
             font-size: 1.5rem;
             cursor: pointer;
-            z-index: 1001;
-            width: 40px;
-            height: 40px;
-            border-radius: 5px;
+            width: 40px; height: 40px;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
         }
-
-        .mobile-menu-btn:hover {
-            background: rgba(255, 62, 62, 0.1);
-        }
-
         .mobile-nav {
             position: fixed;
             top: var(--nav-height);
@@ -199,444 +149,240 @@
             backdrop-filter: blur(20px);
             padding: 20px;
             border-bottom: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transform: translateY(-100%);
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 999;
         }
-
-        .mobile-nav.active {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-nav-links {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
+        .mobile-nav.active { transform: translateY(0); opacity: 1; visibility: visible; }
+        .mobile-nav-links { display: flex; flex-direction: column; gap: 15px; }
         .mobile-nav-links a {
             color: var(--text-main);
             text-decoration: none;
             font-family: 'Orbitron', sans-serif;
-            font-weight: 500;
-            font-size: 1rem;
             padding: 15px 20px;
             border-radius: 10px;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 15px;
             border-left: 4px solid transparent;
         }
-
         .mobile-nav-links a:hover, .mobile-nav-links a.active {
             color: var(--accent);
             background: rgba(255, 62, 62, 0.1);
             border-left-color: var(--accent);
         }
 
-        .mobile-nav-links a i {
-            width: 20px;
-            text-align: center;
-        }
-
+        /* hero */
         .hero {
-            padding: 150px 20px 80px;
+            padding: 150px 20px 60px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
             margin-top: var(--nav-height);
         }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 0%, rgba(255, 62, 62, 0.15) 0%, transparent 70%);
-            z-index: -1;
-        }
-
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.8rem, 8vw, 5rem);
-            text-transform: uppercase;
-            margin: 20px 0;
+            font-size: clamp(2.5rem, 8vw, 5rem);
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             line-height: 1.1;
         }
-
         .tagline {
             color: var(--accent);
-            font-weight: bold;
-            letter-spacing: 4px;
             font-family: 'Orbitron';
-            font-size: clamp(1rem, 3vw, 1.2rem);
+            letter-spacing: 4px;
             margin-top: 10px;
-            position: relative;
-            display: inline-block;
         }
 
-        .tagline::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient);
-            bottom: -8px;
-            left: 0;
-            transform: scaleX(0);
-            transform-origin: right;
-            animation: slideIn 2s ease forwards;
-        }
-
-        @keyframes slideIn {
-            to { transform: scaleX(1); transform-origin: left; }
-        }
-
+        /* main content */
         .main-content {
             max-width: 1300px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px 20px 40px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        /* event cards - completely flexible, mobile optimised */
+        .events-grid {
+            display: flex;
+            flex-direction: column;
             gap: 30px;
+            margin: 30px 0;
         }
-
-        .section-card {
+        .event-card {
             background: var(--surface);
-            border-radius: 24px;
-            padding: 40px 35px;
+            border-radius: 28px;
+            padding: 28px 25px;
             border: 1px solid var(--border);
             backdrop-filter: blur(10px);
             box-shadow: var(--card-shadow);
-            transition: all 0.4s ease;
+            transition: transform 0.3s ease;
             position: relative;
-            overflow: visible !important; /* Fixed: changed from hidden to visible */
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 1 !important; /* Force visibility */
-            display: block !important; /* Ensure display */
+            overflow: hidden;
+            width: 100%;
         }
-
-        .section-card::before {
+        .event-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 5px;
+            width: 6px;
             height: 100%;
             background: var(--gradient);
         }
+        .event-card:hover { transform: translateY(-5px); }
 
-        .section-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(255, 62, 62, 0.15);
-        }
-
-        .section-card h2 {
+        .event-title {
             font-family: 'Orbitron';
-            color: var(--accent);
-            margin-bottom: 25px;
-            font-size: 1.6rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .section-card h2 i {
-            font-size: 1.4rem;
-        }
-
-        .section-card ul {
-            list-style: none;
-            display: block;
-        }
-
-        .section-card li {
-            margin-bottom: 16px;
-            position: relative;
-            padding-left: 32px;
-            font-size: 1rem;
-            line-height: 1.7;
-            display: list-item;
-            color: var(--text-main);
-        }
-
-        .section-card li::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .event-item {
-            cursor: pointer;
-            transition: 0.2s;
-            padding-left: 32px;
-            margin-bottom: 16px;
-            position: relative;
-        }
-        .event-item::before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: var(--secondary);
-            font-weight: bold;
-            font-size: 1.2rem;
-            top: 0;
-        }
-        .event-item:hover {
-            color: var(--accent);
-            transform: translateX(8px);
-        }
-        .event-item span {
-            font-weight: 600;
-            font-family: 'Orbitron';
-            font-size: 1rem;
-        }
-
-        /* MODAL (EVENT) */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--modal-overlay);
-            backdrop-filter: blur(12px);
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-card {
-            background: var(--surface);
-            border-radius: 30px;
-            padding: 30px 30px 35px;
-            max-width: 550px;
-            width: 100%;
-            border: 1px solid var(--border);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            position: relative;
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-left: 6px solid;
-            border-image: var(--gradient);
-            border-image-slice: 1;
-        }
-        .modal.show .modal-card {
-            transform: scale(1);
-        }
-        .modal-card h2 {
-            font-family: 'Orbitron';
-            font-size: 2rem;
+            font-size: 1.8rem;
+            font-weight: 700;
             background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
-        .modal-img {
-            width: 100%;
-            border-radius: 20px;
-            margin: 15px 0 20px;
-            border: 2px solid var(--accent);
-            box-shadow: 0 10px 20px rgba(255,62,62,0.3);
-        }
-        .modal-desc {
-            color: var(--text-main);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin: 20px 0 15px;
-        }
-        .modal-date {
+        .event-sub {
             color: var(--secondary);
-            font-family: 'Orbitron';
             font-weight: 500;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .close-modal {
-            position: absolute;
-            top: 20px; right: 25px;
-            background: transparent;
-            border: none;
-            color: var(--accent);
-            font-size: 2.2rem;
-            cursor: pointer;
-            transition: 0.2s;
-            line-height: 1;
+        .event-sub i { margin-right: 5px; width: 18px; }
+
+        .prize-pool {
+            background: rgba(255, 62, 62, 0.08);
+            border-radius: 18px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px dashed var(--accent);
         }
-        .close-modal:hover {
-            transform: scale(1.2);
-            color: var(--secondary);
-        }
-        .modal-footer-btn {
-            background: var(--accent);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 40px;
+        .prize-pool h3, .rules-section h3, .thanks-section h3 {
             font-family: 'Orbitron';
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 5px 15px rgba(255,62,62,0.4);
-            display: inline-flex;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
             align-items: center;
             gap: 8px;
         }
-        .modal-footer-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-3px);
+        .prize-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+            list-style: none;
+        }
+        .prize-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .prize-list i { color: gold; width: 24px; }
+
+        .rules-section, .thanks-section {
+            margin: 20px 0;
+            padding: 5px 0;
+        }
+        .rules-list {
+            list-style: none;
+        }
+        .rules-list li {
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+        }
+        .rules-list li::before {
+            content: "▸";
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+        }
+        .meta-note {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 242, 255, 0.05);
+            border-radius: 16px;
+            border-left: 4px solid var(--secondary);
+            font-style: italic;
+        }
+        .event-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        .event-footer i { margin-right: 5px; color: var(--accent); }
+
+        .sponsor-note {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 40px;
+            padding: 15px 25px;
+            margin: 20px 0 0;
+            font-weight: 500;
+            border: 1px solid gold;
         }
 
+        /* contact / footer unchanged */
         .contact-footer {
-            margin-top: 80px;
+            margin-top: 60px;
             text-align: center;
-            padding: 70px 40px;
+            padding: 50px 30px;
             background: var(--surface);
             border-radius: 30px;
-            border: 1px solid transparent;
-            background-clip: padding-box;
-            position: relative;
-            overflow: hidden;
-        }
-        .contact-footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient);
-        }
-        .contact-footer h2 {
-            font-family: 'Orbitron';
-            font-size: 2rem;
-            margin-bottom: 20px;
+            border: 1px solid var(--border);
         }
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
             flex-wrap: wrap;
-            margin-top: 40px;
+            margin-top: 30px;
         }
         .social-btn {
-            padding: 18px 40px;
+            padding: 15px 35px;
             border-radius: 15px;
             text-decoration: none;
             font-family: 'Orbitron';
             font-weight: bold;
-            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-        .social-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s;
-            z-index: -1;
-        }
-        .social-btn:hover::before {
-            left: 100%;
+            gap: 10px;
+            transition: 0.3s;
         }
         .fb { background: #1877F2; color: white; }
         .dc { background: #5865F2; color: white; }
-        .social-btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
+        .social-btn:hover { transform: translateY(-5px); }
+
         footer {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             color: var(--text-dim);
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-top: 60px;
             border-top: 1px solid var(--border);
-        }
-        .footer-logo {
-            font-family: 'Orbitron';
-            font-weight: 900;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: transparent;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-        }
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 62, 62, 0.4);
-        }
-        .scroll-top.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            background: var(--secondary);
+            margin-top: 40px;
         }
 
-        /* inspector alert banner */
+        /* inspector alert - shows real GPS */
         .inspector-alert {
             position: fixed;
-            bottom: 30px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--accent);
             color: white;
-            padding: 18px 30px;
+            padding: 16px 28px;
             border-radius: 60px;
             font-family: 'Orbitron';
             font-weight: 600;
@@ -645,59 +391,62 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.2);
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.95rem;
+            transition: opacity 0.2s;
+            font-size: 1rem;
+            white-space: nowrap;
+            max-width: 90vw;
         }
-        .inspector-alert.show {
-            opacity: 1;
-        }
-        .inspector-alert i {
-            font-size: 1.5rem;
-        }
+        .inspector-alert.show { opacity: 1; }
+        .inspector-alert i { font-size: 1.4rem; }
 
-        /* Fix animation delays */
-        .section-card:nth-child(1) { animation-delay: 0.1s; }
-        .section-card:nth-child(2) { animation-delay: 0.2s; }
-        .section-card:nth-child(3) { animation-delay: 0.3s; }
-        .section-card:nth-child(4) { animation-delay: 0.4s; }
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255,62,62,0.4);
+        }
+        .scroll-top.active { opacity: 1; visibility: visible; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 700px) {
             .nav-links { display: none; }
             .mobile-menu-btn { display: flex; }
             .theme-btn span { display: none; }
-            .theme-btn { padding: 12px; }
-        }
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            :root { --nav-height: 60px; }
-            .hero h1 { font-size: 2.2rem; }
-            .inspector-alert { font-size: 0.8rem; padding: 12px 20px; }
+            .event-title { font-size: 1.5rem; }
+            .prize-list { flex-direction: column; gap: 8px; }
+            .event-footer { flex-direction: column; align-items: start; gap: 8px; }
+            .inspector-alert { font-size: 0.85rem; padding: 12px 20px; }
         }
     </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
 
-<!-- hidden inspector alert -->
+<!-- inspector alert: shows real GPS -->
 <div class="inspector-alert" id="inspectorAlert">
-    <i class="fas fa-map-marker-alt"></i>
-    <span id="geoCoords">fetching location...</span>
+    <i class="fas fa-map-pin"></i>
+    <span id="geoCoords">fetching precise location ...</span>
 </div>
 
 <nav>
     <a href="#" class="logo"><i class="fas fa-fire"></i> HGMN</a>
     <div class="nav-links">
-        <a href="#home" class="active">HOME</a>
-        <a href="#requirements">REQUIREMENTS</a>
-        <a href="#benefits">BENEFITS</a>
-        <a href="#rules">RULES</a>
+        <a href="#home">HOME</a>
         <a href="#events">EVENTS</a>
         <a href="#join">JOIN</a>
         <button class="theme-btn" onclick="toggleTheme()" id="t-btn"><i class="fas fa-moon"></i></button>
@@ -708,11 +457,8 @@
 <div class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-links">
         <a href="#home"><i class="fas fa-home"></i> HOME</a>
-        <a href="#requirements"><i class="fas fa-list-check"></i> REQUIREMENTS</a>
-        <a href="#benefits"><i class="fas fa-gift"></i> BENEFITS</a>
-        <a href="#rules"><i class="fas fa-scroll"></i> RULES</a>
         <a href="#events"><i class="fas fa-calendar-alt"></i> EVENTS</a>
-        <a href="#join"><i class="fas fa-envelope"></i> JOIN US</a>
+        <a href="#join"><i class="fas fa-envelope"></i> JOIN</a>
         <a href="#" onclick="toggleTheme()"><i class="fas fa-moon"></i> TOGGLE THEME</a>
     </div>
 </div>
@@ -723,54 +469,105 @@
 </header>
 
 <main class="main-content">
-    <div class="grid">
-        <div class="section-card" id="requirements">
-            <h2><i class="fas fa-list-check"></i> Requirements</h2>
-            <ul>
-                <li>Must be active in PokéMMO (PvE, PvP, events, or farming)</li>
-                <li>Friendly, respectful, and non-toxic</li>
-                <li>Willing to communicate in team chat / Discord</li>
-                <li>At least basic game knowledge (PvE or PvP)</li>
-                <li>Ready to help and grow with the team</li>
-                <li>PH players only</li>
-            </ul>
+    <!-- EVENTS SECTION – fully mobile friendly, exact provided texts -->
+    <div id="events" style="scroll-margin-top: 80px;"></div>
+    <div class="events-grid">
+
+        <!-- 1) Unova Random PvP Showdown -->
+        <div class="event-card">
+            <div class="event-title">🏙️ Unova Random PvP Showdown</div>
+            <div class="event-sub">
+                <span><i class="fas fa-calendar"></i> March 30, 2026</span>
+                <span><i class="fas fa-map-marker-alt"></i> Unova, Pokémon League · 8:00 PM · Ch2</span>
+            </div>
+            <p style="margin-bottom: 15px;"><i>Prepare your strategies and expect the unexpected!</i> Whether you're a veteran or rising star, prove you can win with any team the RNG gods hand you.</p>
+
+            <div class="prize-pool">
+                <h3><i class="fas fa-trophy"></i> Prize Pool</h3>
+                <ul class="prize-list">
+                    <li><i class="fas fa-crown"></i> 🥇 1st: ✨ Shiny Seaking</li>
+                    <li><i class="fas fa-medal"></i> 🥈 2nd: ✨ Shiny Golduck</li>
+                    <li><i class="fas fa-coins"></i> 🥉 3rd: 💰 1,500,000</li>
+                    <li><i class="fas fa-gift"></i> 🎗️ Consolation: 💸 100,000</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3><i class="fas fa-scroll"></i> Tournament Rules</h3>
+                <ul class="rules-list">
+                    <li><strong>10-Minute Grace Period:</strong> Trainers have 10min to show up for matches.</li>
+                    <li><strong>Attendance:</strong> If not ready within 10min → disqualification.</li>
+                    <li><strong>Format:</strong> Pure Randoms – no pre-built teams. Adaptability wins.</li>
+                </ul>
+            </div>
+
+            <div class="meta-note">
+                ⚔️ Forget your carefully bred IVs – victory goes to those who think on their feet. <strong>May RNG be on your side!</strong>
+            </div>
+            <div class="event-footer">
+                <span><i class="fas fa-hashtag"></i> #PokeMMO #UnovaShowdown</span>
+                <span><i class="fas fa-users"></i> Channel 2</span>
+            </div>
         </div>
 
-        <div class="section-card" id="benefits">
-            <h2><i class="fas fa-gift"></i> Benefits</h2>
-            <ul>
-                <li>Supportive and friendly teammates</li>
-                <li>Help with PvP builds, EVs, IVs, and movesets</li>
-                <li>Tips for money making, farming, and events</li>
-                <li>Team participation in tournaments and raids</li>
-                <li>Announcements, guides, and strategies</li>
-            </ul>
+        <!-- 2) Birthday thanks & sponsor shoutout -->
+        <div class="event-card">
+            <div class="event-title">🎂 Birthday Event Appreciation</div>
+            <div class="event-sub"><i class="fas fa-heart" style="color: var(--accent);"></i> March 2026 · PokeMMO</div>
+            <div style="font-size: 1.1rem; margin: 15px 0;">
+                Huge thanks to everyone who came out to celebrate the birthday event in PokeMMO today. It was a blast seeing the community come together.
+            </div>
+            <div class="sponsor-note">
+                <i class="fas fa-star" style="color: gold;"></i> Special thanks to our sponsors <strong>K*********a</strong> and <strong>OL*****O</strong> for supporting the event 🔥
+            </div>
+            <div class="event-footer" style="margin-top: 20px;">
+                <span><i class="fab fa-patreon"></i> #PokeMMO #Pokemon #GamingCommunity #BirthdayEvent</span>
+            </div>
         </div>
 
-        <div class="section-card" id="rules">
-            <h2><i class="fas fa-scroll"></i> Team Rules</h2>
-            <ul>
-                <li>No toxicity or disrespect</li>
-                <li>No scamming, cheating, or Real Money Trading (RMT)</li>
-                <li>Be active and participate in team activities</li>
-                <li>No leaking team strategies or private info</li>
-            </ul>
-        </div>
+        <!-- 3) TRPH 2nd Event: The Metronome Battle -->
+        <div class="event-card">
+            <div class="event-title">🔥 TRPH 2nd Event: The Metronome Battle</div>
+            <div class="event-sub">
+                <span><i class="fas fa-calendar-alt"></i> January 30 · 8:00 PM</span>
+                <span><i class="fas fa-map-pin"></i> Unova, Anville Town (Ch2)</span>
+            </div>
+            <p style="margin-bottom: 15px;">Unpredictable chaos! Strategy takes a backseat to the whims of fate. Everyone has a chance when the fingers start wagging 🤞✨</p>
 
-        <div class="section-card" id="events">
-            <h2><i class="fas fa-calendar-alt"></i> Events</h2>
-            <ul>
-                <li class="event-item" onclick="openModal('spring')"><span>🌸 Spring Tournament</span><br><small>March 15-16 · Solo PvP</small></li>
-                <li class="event-item" onclick="openModal('catch')"><span>🐞 Catch Contest</span><br><small>March 22 · Bug-Catching</small></li>
-                <li class="event-item" onclick="openModal('boss')"><span>⚡ Legendary Raid</span><br><small>March 29 · Co-op</small></li>
-            </ul>
-            <p style="margin-top: 20px; color: var(--text-dim); font-style: italic;">Click any event for details →</p>
+            <div class="prize-pool">
+                <h3><i class="fas fa-gem"></i> Prize Pool</h3>
+                <ul class="prize-list">
+                    <li><i class="fas fa-first-aid"></i> 🥇 1st: TBA</li>
+                    <li><i class="fas fa-second-aid"></i> 🥈 2nd: TBA</li>
+                    <li><i class="fas fa-third-aid"></i> 🥉 3rd: TBA</li>
+                    <li><i class="fas fa-users"></i> Participants: 100k each</li>
+                </ul>
+                <p style="margin-top: 8px;"><i class="fas fa-exclamation-circle"></i> <strong>Note:</strong> Prizes revealed during the event!</p>
+            </div>
+
+            <div class="rules-section">
+                <h3><i class="fas fa-list-ul"></i> Tournament Rules</h3>
+                <ul class="rules-list">
+                    <li><strong>Metronome is the ONLY move allowed.</strong> Any other move = immediate DQ.</li>
+                    <li><strong>No Held Items permitted.</strong> Pure luck!</li>
+                    <li><strong>Registration ends January 26.</strong> Comment your IGN to join.</li>
+                </ul>
+            </div>
+
+            <div class="meta-note">
+                📢 Prepare your luck, trust the Metronome, and may RNG be on your side! 🍀⚡
+            </div>
+            <div class="event-footer">
+                <span><i class="fas fa-clock"></i> 8PM server time</span>
+                <span><i class="fas fa-tag"></i> #MetronomeMadness</span>
+            </div>
         </div>
     </div>
 
+    <!-- JOIN SECTION unchanged -->
     <section class="contact-footer" id="join">
         <h2><i class="fas fa-envelope"></i> HOW TO JOIN</h2>
-        <p>Do you want to join? Contact our recruitment officers via the channels below.</p>
+        <p>Contact our recruitment officers via the channels below.</p>
         <div class="btn-group">
             <a href="https://m.me/j/AbZ6LbneLs5hbzbR/" target="_blank" class="social-btn fb"><i class="fab fa-facebook-f"></i> MESSENGER</a>
             <a href="https://discord.gg/mRH73DG5" target="_blank" class="social-btn dc"><i class="fab fa-discord"></i> DISCORD</a>
@@ -778,234 +575,117 @@
     </section>
 </main>
 
-<!-- MODAL (EVENT) -->
-<div class="modal" id="eventModal">
-    <div class="modal-card">
-        <button class="close-modal" onclick="closeModal()">&times;</button>
-        <h2 id="modalTitle"><i class="fas fa-star"></i> <span>Event</span></h2>
-        <img id="modalImage" class="modal-img" src="https://placekitten.com/600/300" alt="event visual">
-        <div class="modal-date" id="modalDate"></div>
-        <div class="modal-desc" id="modalDescription">event description</div>
-        <button class="modal-footer-btn" onclick="closeModal()"><i class="fas fa-check"></i> GOT IT</button>
-    </div>
-</div>
-
 <footer>
     <div class="footer-logo">TEAM HEGEMON</div>
     <div>&copy; 2026 TEAM HEGEMON | PokéMMO Philippines</div>
-    <div>Created by : <a href="https://web.facebook.com/profile.php?id=61576508304832" style="color: var(--accent);">Adrayle</a></div>
+    <div>Created by <a href="https://web.facebook.com/profile.php?id=61576508304832" style="color: var(--accent);">Adrayle</a></div>
 </footer>
 
 <div class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></div>
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script>
-    // ========== PARTICLES ==========
-    document.addEventListener('DOMContentLoaded', function() {
+    // particles
+    document.addEventListener('DOMContentLoaded', () => {
         particlesJS("particles-js", {
             particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
+                number: { value: 60, density: { enable: true } },
                 color: { value: "#ff3e3e" },
                 shape: { type: "circle" },
                 opacity: { value: 0.3, random: true },
                 size: { value: 3, random: true },
-                line_linked: { enable: true, distance: 150, color: "#00f2ff", opacity: 0.2, width: 1 },
-                move: { enable: true, speed: 2, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
+                line_linked: { enable: true, distance: 150, color: "#00f2ff", opacity: 0.2 },
+                move: { enable: true, speed: 2 }
             },
             interactivity: {
-                detect_on: "canvas",
-                events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true }
-            },
-            retina_detect: true
+                events: { onhover: { enable: true, mode: "repulse" } }
+            }
         });
     });
 
-    // ========== THEME TOGGLE ==========
+    // theme toggle
     function toggleTheme() {
         const html = document.documentElement;
-        const btn = document.getElementById('t-btn');
-        const btnIcon = btn.querySelector('i');
+        const btn = document.getElementById('t-btn').querySelector('i');
         const isDark = html.getAttribute('data-theme') === 'dark';
-        
-        if (isDark) {
-            html.setAttribute('data-theme', 'light');
-            btnIcon.className = 'fas fa-sun';
-        } else {
-            html.setAttribute('data-theme', 'dark');
-            btnIcon.className = 'fas fa-moon';
-        }
-        
-        const mobileToggle = document.querySelector('.mobile-nav-links a[href="#"] i');
-        if (mobileToggle) mobileToggle.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-        
-        if (window.pJSDom && window.pJSDom[0]) {
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        btn.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        document.querySelectorAll('.mobile-nav-links a[href="#"] i').forEach(el => {
+            el.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        });
+        if (window.pJSDom?.[0]) {
             window.pJSDom[0].pJS.particles.color.value = isDark ? '#e63946' : '#ff3e3e';
             window.pJSDom[0].pJS.fn.particlesRefresh();
         }
     }
 
-    // ========== MODAL ==========
-    const modal = document.getElementById('eventModal');
-    const modalTitleSpan = document.querySelector('#modalTitle span');
-    const modalImage = document.getElementById('modalImage');
-    const modalDateDiv = document.getElementById('modalDate');
-    const modalDesc = document.getElementById('modalDescription');
+    // mobile menu
+    const mobileBtn = document.getElementById('mobile-menu');
+    const mobileNav = document.getElementById('mobileNav');
+    mobileBtn.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+        const icon = mobileBtn.querySelector('i');
+        icon.className = mobileNav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+    });
+    document.querySelectorAll('.mobile-nav-links a').forEach(l => l.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        mobileBtn.querySelector('i').className = 'fas fa-bars';
+    }));
 
-    function openModal(eventId) {
-        const events = {
-            spring: { 
-                title: '🌸 Spring Tournament', 
-                date: '📅 March 15-16, 2026 · 8:00 PM GMT+8', 
-                desc: 'Solo PvP OU tier. Top 3 get 500k/300k/150k Pokéyen + exclusive team role. Sign-up in #tourney channel.', 
-                img: 'https://placekitten.com/600/300' 
-            },
-            catch: { 
-                title: '🐞 Bug-Catching Contest', 
-                date: '📅 March 22, 2026 · National Park', 
-                desc: 'Catch the highest IV Bug-type! Entry fee 10k. Winner takes 400k and a 3x31 Bug trophy.', 
-                img: 'https://placekitten.com/601/300' 
-            },
-            boss: { 
-                title: '⚡ Legendary Raid: Zapdos', 
-                date: '📅 March 29, 2026 · Co-op', 
-                desc: 'Team up against Legendary Zapdos. Participants must have discord. Reward: 100k each + rare candy loot.', 
-                img: 'https://placekitten.com/602/300' 
-            }
-        };
-        const data = events[eventId] || events.spring;
-        modalTitleSpan.innerText = data.title;
-        modalImage.src = data.img;
-        modalDateDiv.innerText = data.date;
-        modalDesc.innerText = data.desc;
-        modal.classList.add('show');
-    }
+    // scroll top
+    const scrollTop = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => scrollTop.classList.toggle('active', window.scrollY > 300));
+    scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    function closeModal() { modal.classList.remove('show'); }
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-    // ========== INSPECTOR DETECTION + GEOLOCATION ==========
+    // ========== INSPECTOR DETECTION + REAL GEOLOCATION ==========
     const alertBox = document.getElementById('inspectorAlert');
     const coordsSpan = document.getElementById('geoCoords');
-    let locationShared = false;
+    let locationCaptured = false;
 
-    function showInspectorWarning() {
-        if (!locationShared) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude.toFixed(5);
-                        const lon = position.coords.longitude.toFixed(5);
-                        coordsSpan.innerText = `📍 ${lat}, ${lon}  •  inspect blocked`;
-                        locationShared = true;
-                        alertBox.classList.add('show');
-                    },
-                    (error) => {
-                        coordsSpan.innerText = `⚠️ location denied  •  access logged`;
-                        alertBox.classList.add('show');
-                    }
-                );
-            } else {
-                coordsSpan.innerText = `⚠️ no geolocation  •  access logged`;
-                alertBox.classList.add('show');
-            }
+    function showRealLocation() {
+        if (locationCaptured) { alertBox.classList.add('show'); return; }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude.toFixed(6);
+                    const lon = pos.coords.longitude.toFixed(6);
+                    coordsSpan.innerText = `📍 ${lat}, ${lon}  ·  inspect blocked`;
+                    locationCaptured = true;
+                    alertBox.classList.add('show');
+                },
+                (err) => {
+                    coordsSpan.innerText = `⚠️ location denied · access flagged`;
+                    alertBox.classList.add('show');
+                },
+                { enableHighAccuracy: true, timeout: 5000 }
+            );
         } else {
+            coordsSpan.innerText = `⚠️ geolocation unsupported · access logged`;
             alertBox.classList.add('show');
         }
     }
 
-    // block all common inspect shortcuts
-    document.addEventListener('contextmenu', (e) => { 
-        e.preventDefault(); 
-        showInspectorWarning(); 
-        return false; 
-    });
-    
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'F12' || 
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-            (e.ctrlKey && e.key === 'u') ||
-            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-            (e.metaKey && e.altKey && e.key === 'i')
-           ) {
+    // block shortcuts & right-click
+    document.addEventListener('contextmenu', e => { e.preventDefault(); showRealLocation(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I'||e.key==='J'||e.key==='C')) || (e.ctrlKey && e.key === 'u') || (e.metaKey && e.altKey && e.key === 'i')) {
             e.preventDefault();
-            showInspectorWarning();
-            return false;
+            showRealLocation();
         }
     });
 
-    // detect devtools via window size threshold
+    // devtools size detection
     let devToolsOpen = false;
-    function detectDevTools() {
-        const threshold = 160;
-        const widthDiff = window.outerWidth - window.innerWidth > threshold;
-        const heightDiff = window.outerHeight - window.innerHeight > threshold;
+    setInterval(() => {
+        const widthDiff = window.outerWidth - window.innerWidth > 160;
+        const heightDiff = window.outerHeight - window.innerHeight > 160;
         if ((widthDiff || heightDiff) && !devToolsOpen) {
             devToolsOpen = true;
-            showInspectorWarning();
-        } else if (!widthDiff && !heightDiff) {
-            devToolsOpen = false;
-        }
-    }
-    setInterval(detectDevTools, 800);
+            showRealLocation();
+        } else if (!widthDiff && !heightDiff) devToolsOpen = false;
+    }, 800);
 
-    window.addEventListener('blur', () => {
-        setTimeout(() => { if (!devToolsOpen) showInspectorWarning(); }, 200);
-    });
-
-    // ========== MOBILE MENU ==========
-    const mobileBtn = document.getElementById('mobile-menu');
-    const mobileNav = document.getElementById('mobileNav');
-    mobileBtn.addEventListener('click', function() {
-        mobileNav.classList.toggle('active');
-        const icon = this.querySelector('i');
-        icon.className = mobileNav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
-    });
-    
-    document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-        link.addEventListener('click', function() {
-            mobileNav.classList.remove('active');
-            mobileBtn.querySelector('i').className = 'fas fa-bars';
-        });
-    });
-
-    // ========== SCROLL SPY ==========
-    const sections = document.querySelectorAll('header, .section-card, .contact-footer');
-    const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-links a:not([href="#"])');
-    
-    window.addEventListener('scroll', function() {
-        let current = '';
-        const scrollPos = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            if (section && section.offsetTop) {
-                const top = section.offsetTop;
-                const height = section.clientHeight;
-                if (scrollPos >= top && scrollPos < top + height) {
-                    current = section.getAttribute('id') || 'home';
-                }
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const href = link.getAttribute('href').replace('#', '');
-            if ((current === 'home' && href === '') || href === current) {
-                link.classList.add('active');
-            }
-        });
-    });
-
-    // ========== SCROLL TOP ==========
-    const scrollTop = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => scrollTop.classList.toggle('active', window.scrollY > 300));
-    scrollTop.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
-
-    // Ensure all cards are visible
-    document.querySelectorAll('.section-card').forEach(card => {
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
-        card.style.display = 'block';
-    });
+    window.addEventListener('blur', () => setTimeout(() => { if (!devToolsOpen) showRealLocation(); }, 300));
 </script>
 </body>
 </html>
