@@ -289,7 +289,7 @@
             margin-top: 40px;
         }
 
-        /* ========== EVENTS MODAL (flexible, all events inside) ========== */
+        /* EVENTS MODAL (flexible, all events inside) */
         .events-modal {
             display: none;
             position: fixed;
@@ -341,7 +341,6 @@
         }
         .close-modal:hover { transform: scale(1.2); color: var(--secondary); }
 
-        /* events container inside modal – fully flexible */
         .events-container {
             display: flex;
             flex-direction: column;
@@ -429,7 +428,7 @@
             color: var(--text-dim);
         }
 
-        /* inspector alert (real location) */
+        /* inspector alert (ONLY real location name, no lat/lon) */
         .inspector-alert {
             position: fixed;
             bottom: 25px;
@@ -487,13 +486,13 @@
 <body>
 <div id="particles-js"></div>
 
-<!-- inspector alert (real gps) -->
+<!-- inspector alert (shows only real location name, no coordinates) -->
 <div class="inspector-alert" id="inspectorAlert">
     <i class="fas fa-map-pin"></i>
-    <span id="geoCoords">fetching precise location ...</span>
+    <span id="locationName">fetching your location ...</span>
 </div>
 
-<!-- NAVIGATION (exactly as before, now with EVENTS tab) -->
+<!-- NAVIGATION (unchanged, with EVENTS tab) -->
 <nav>
     <a href="#" class="logo"><i class="fas fa-fire"></i> HGMN</a>
     <div class="nav-links">
@@ -501,7 +500,7 @@
         <a href="#requirements">REQUIREMENTS</a>
         <a href="#benefits">BENEFITS</a>
         <a href="#rules">RULES</a>
-        <a href="#" id="eventsNavBtn">EVENTS</a>   <!-- opens modal -->
+        <a href="#" id="eventsNavBtn">EVENTS</a>
         <a href="#join">JOIN</a>
         <button class="theme-btn" onclick="toggleTheme()" id="t-btn"><i class="fas fa-moon"></i></button>
     </div>
@@ -710,7 +709,7 @@
     window.addEventListener('scroll', () => scrollTop.classList.toggle('active', window.scrollY > 300));
     scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // EVENTS MODAL trigger (from both nav & mobile nav)
+    // EVENTS MODAL trigger
     const modal = document.getElementById('eventsModal');
     const openBtns = [
         document.getElementById('eventsNavBtn'),
@@ -728,47 +727,74 @@
     closeBtn.addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
 
-    // ========== INSPECTOR + REAL GEOLOCATION ==========
+    // ========== INSPECTOR DETECTION + REVERSE GEOLOCATION (ONLY location name, no lat/lon) ==========
     const alertBox = document.getElementById('inspectorAlert');
-    const coordsSpan = document.getElementById('geoCoords');
+    const locationSpan = document.getElementById('locationName');
     let locationCaptured = false;
 
-    function showRealLocation() {
+    function showLocationName() {
         if (locationCaptured) { alertBox.classList.add('show'); return; }
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    const lat = pos.coords.latitude.toFixed(6);
-                    const lon = pos.coords.longitude.toFixed(6);
-                    coordsSpan.innerText = `📍 ${lat}, ${lon}  ·  inspect blocked`;
-                    locationCaptured = true;
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+
+                    // Use reverse geocoding to get a real address / place name
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Extract a nice short location (city, street, or district)
+                            const addr = data.address;
+                            let locationString = '';
+                            if (addr.road || addr.pedestrian) locationString = (addr.road || addr.pedestrian) + ', ';
+                            if (addr.city_district || addr.suburb) locationString += (addr.city_district || addr.suburb) + ', ';
+                            if (addr.city || addr.town) locationString += (addr.city || addr.town);
+                            else if (addr.county) locationString += addr.county;
+                            else locationString = 'your area';
+
+                            // clean up
+                            locationString = locationString.replace(/, $/, '');
+                            locationSpan.innerText = `📍 ${locationString} · inspect detected`;
+                            locationCaptured = true;
+                            alertBox.classList.add('show');
+                        })
+                        .catch(() => {
+                            // fallback if reverse geocoding fails: just show country/city
+                            locationSpan.innerText = `📍 location · inspect blocked`;
+                            alertBox.classList.add('show');
+                        });
+                },
+                (err) => {
+                    locationSpan.innerText = `⚠️ location denied · access flagged`;
                     alertBox.classList.add('show');
                 },
-                () => {
-                    coordsSpan.innerText = `⚠️ location denied · access flagged`;
-                    alertBox.classList.add('show');
-                },
-                { enableHighAccuracy: true, timeout: 5000 }
+                { enableHighAccuracy: true, timeout: 6000 }
             );
         } else {
-            coordsSpan.innerText = `⚠️ geolocation unsupported · access logged`;
+            locationSpan.innerText = `⚠️ geolocation unsupported · access logged`;
             alertBox.classList.add('show');
         }
     }
 
-    document.addEventListener('contextmenu', e => { e.preventDefault(); showRealLocation(); });
+    // Block shortcuts & right-click
+    document.addEventListener('contextmenu', e => { e.preventDefault(); showLocationName(); });
     document.addEventListener('keydown', e => {
         if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I'||e.key==='J'||e.key==='C')) || (e.ctrlKey && e.key === 'u') || (e.metaKey && e.altKey && e.key === 'i')) {
             e.preventDefault();
-            showRealLocation();
+            showLocationName();
         }
     });
+
+    // Devtools size detection
     setInterval(() => {
         const w = window.outerWidth - window.innerWidth > 160;
         const h = window.outerHeight - window.innerHeight > 160;
-        if (w || h) showRealLocation();
+        if (w || h) showLocationName();
     }, 800);
-    window.addEventListener('blur', () => setTimeout(() => showRealLocation(), 300));
+
+    window.addEventListener('blur', () => setTimeout(() => showLocationName(), 300));
 </script>
 </body>
 </html>
